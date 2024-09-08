@@ -4,7 +4,7 @@
   data-bs-ride="carousel">
 
   <div class="carousel-indicators">
-    {% if section.blocks.size > 1 %}
+    {% if section.blocks.size > 0 %}
       {% for block in section.blocks %}
         <button
           type="button"
@@ -23,7 +23,7 @@
 
   <div class="carousel-inner">
     {% for block in section.blocks %}
-      <div class="carousel-item {% if forloop.index0 == 0 %} active {% endif %}">
+      <div class="carousel-item {% if forloop.index0 == 0 %} active {% endif %} ">
         {% if block.settings.slider_img %}
           <img
             src="{{ block.settings.slider_img | image_url }}"
@@ -34,7 +34,9 @@
 
         <div class="carousel-caption d-none d-md-block">
           <h5>{{ block.settings.caption_title }}</h5>
-          <p>{{ block.settings.caption_text }}</p>
+          <div class="">
+            {{ block.settings.caption_text }}
+          </div>
         </div>
       </div>
     {% endfor %}
@@ -61,6 +63,16 @@
 
 </div>
 
+{% comment %}  CSS {% endcomment %}
+<style>
+  .carousel-item::before {
+    position: absolute;
+    content: "";
+    background-color: #0000;
+    width: 100%;
+    height: 100%;
+  }
+</style>
 {% schema %}
   {
     "name": "Slide",
@@ -79,9 +91,10 @@
             "id": "caption_title",
             "label": "Caption Title"
           }, {
-            "type": "textarea",
+            "type": "richtext",  //for long text we can also use "richtext"
             "id": "caption_text",
-            "label": "Caption Text"
+            "label": "Caption Text",
+            "default":"<p>Hot sell is now...</p>"
           }
         ]
       }
