@@ -1,15 +1,47 @@
-<div class="container">
-  <h2>This is Featured Collection</h2>
+{% liquid
+  assign title = section.settings.featured_collection
+  assign collection = section.settings.collection
+%}
+<div class="container featured-section">
+  {% if title != blank %}
+    <h2>
+      {{ title | escape }}</h2>
+  {% endif %}
+  <div class="row">
+    {% for product in collection.products %}
+      <div class="col-md-4">
+        <div class="card" style="width: 18rem;">
+          <img
+            src="{{product.featured_image |  image_url}}"
+            width="120px"
+            height="240px"
+            class="card-img-top"
+            alt="{{product.title}}">
+          <div class="card-body">
+            <h5 class="card-title">{{ product.title }}</h5>
+            <p class="card-text">{{ product.price | money }}</p>
+            <a href="#" class="btn btn-primary">Add to cart</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
 </div>
+
 
 {% schema %}
   {
     "name": "Featured Collection",
     "settings": [
       {
-        "type": "collection",
+        "type": "text",
         "id": "featured_collection",
-        "label": "Featured Products"
+        "label": "Heading",
+        "default": "Featured Collection"
+      }, {
+        "id": "collection",
+        "type": "collection",
+        "label": "Collection"
       }
     ],
     "presets": [
