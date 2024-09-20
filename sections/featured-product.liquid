@@ -6,6 +6,9 @@
   {% if title != blank %}
     <h2>
       {{ title | escape }}</h2>
+  {% else %}
+    <h2>
+      {{ collection.title }}</h2>
   {% endif %}
   <div class="row">
     {% for product in collection.products %}
